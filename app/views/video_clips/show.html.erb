@@ -1,0 +1,175 @@
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Show Video <small>Show Video</small></h1>
+      <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i>  Show Video </li>
+      </ol>
+    </div>
+  </div>
+
+  <% height = 387%>
+  <% width = 640 %>
+
+  <div class="page">
+    <div class="video">
+      <div class="header>">
+        <div class="headerTitle">
+          <strong>Title: </strong>
+          <%= @video_clip.title %>
+        </div>
+        <% if current_person.type == 'Admin' || current_person_is_video_owner?(@video_clip) %>
+            <div class="headerEdit">
+              <%= link_to 'Edit Video', edit_video_clip_path(@video_clip) %>
+            </div>
+        <% end %>
+      </div>
+
+      <!--
+      <div class="videocontainer">
+        <div class="player">
+          <%#= video_tag([@video_clip.pathvideo], :size => '640x387', :controls => true, :preload => 'none', :autoplay => true) do%>
+              Your browser does not support the video tag.
+          <%# end %>
+        </div>
+      </div>
+      -->
+      <div class="videocontainer">
+        <div class="player">
+            <%= jwplayer({ height: height,
+                           width: width,
+                           file: @file_video,
+                           image: @thumb_main.image.url(:original),
+                           title: @video_clip.title
+                         })
+            %>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="contentInfo">
+
+          <div class="description">
+            <p>
+              <strong>Description:</strong>
+              <%= @video_clip.description %>
+            </p>
+            <p>
+              <strong>Uploaded on:</strong>
+              <%= @video_clip.date %>
+            </p>
+            <p>
+              <strong>Views:</strong>
+              <%= @video_clip.views %>
+            </p>
+
+            <p>
+              <strong>Owner:</strong>
+              <i><%= @owner.lastname.upcase %></i>
+              <%= @owner.firstname %>
+            </p>
+          </div>
+
+          <div class="options">
+            <% Right.all.each do |right| %>
+                <% if right.name != 'Comment' && right.name != 'Upload'%>
+                    <al>
+                      <% if right_in_current_person_personalgroup?(right.name) %>
+                          <% if right.name == 'Download' %>
+                              <%= link_to right.name, download_video_clip_path(@video_clip), :alt => right.name %> |
+                          <% else %>
+                              <%= link_to right.name, '#', :alt => right.name %> |
+                          <% end %>
+                      <% else %>
+                          <% if current_person_groups_enable? %>
+                              <% if right_in_current_person_groups?(right.name) %>
+                                  <% if right.name == 'Download' %>
+                                      <%= link_to right.name, download_video_clip_path(@video_clip), :alt => right.name %> |
+                                  <% else %>
+                                      <%= link_to right.name, '#', :alt => right.name %> |
+                                  <% end %>
+                              <% end %>
+                          <% end %>
+                      <% end %>
+                    </al>
+                <% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <div id="new_comment_form_div">
+            <% if right_in_current_person_personalgroup?('Comment') %>
+                <p>
+                  <%= form_for([@video_clip, @new_comment], :url => video_clip_comments_path(@video_clip, @new_comment), :html => { :id => 'new_comment_form'} ) do |f| %>
+                      <%= f.text_field :message, size:'89x3', class:'form-control' , id:'txt', placeholder:'Comment'%><br>
+                      <%= f.submit 'Post Comment', class:'btn btn-default' %>
+                  <% end %>
+                </p>
+            <% else %>
+                <% if current_person_groups_enable? %>
+                    <% if right_in_current_person_groups?('Comment') %>
+                        <p>
+                          <%= form_for([@video_clip, @new_comment], :url => video_clip_comments_path(@video_clip, @new_comment), :html => {:id => 'new_comment_form'}) do |f| %>
+                              <%= f.text_field :message, size:'89x3', class:'form-control', id:'txt' , placeholder:'Comment'%><br>
+                              <%= f.submit 'Post Comment', class:'btn btn-default' %>
+                          <% end %>
+                        </p>
+                    <% end %>
+                <% end %>
+            <% end %>
+        </div>
+
+        <div id="comments_div"> <%= render 'comments'  %> </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <!--
+
+<p>
+  <strong>Title:</strong>
+  <%#= @video_clip.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%#= @video_clip.description %>
+</p>
+
+<p>
+  <strong>Is available:</strong>
+  <%#= @video_clip.is_available %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%#= @video_clip.date %>
+</p>
+
+<p>
+  <strong>Views:</strong>
+  <%#= @video_clip.views %>
+</p>
+
+<p>
+  <%#= jwplayer({ height: height,
+                 width: width,
+                 file: @video_clip.videoitemclip.url,
+                 image: '',
+                 title: @video_clip.title
+               })
+  %>
+</p>
+
+<p>
+  <%#= link_to "Download", @video_clip.videoitemclip.url(:original, false) %>
+  <%#= link_to 'Download', download_video_clip_path(@video_clip) %>  OK
+  <%#= link_to 'Download', download_url_video_clip_path(@video_clip) %>
+</p>
+ -->
+
+</div>

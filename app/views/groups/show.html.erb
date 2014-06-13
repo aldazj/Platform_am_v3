@@ -1,0 +1,31 @@
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Groups <small>Show Group</small></h1>
+      <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i>  Show Group </li>
+      </ol>
+    </div>
+  </div>
+
+  <p id="notice"><%= notice %></p>
+  <p>
+    <strong>Name:</strong>
+    <%= @group.name %>
+  </p>
+
+  <p>
+    <strong>Rights:</strong>
+  <ol>
+    <% Right.all.each do |right| %>
+        <div>
+          <%= check_box_tag 'group[right_ids][]', right.id, right_present?(right.id)  %>
+          <%= right.name %><br>
+        </div>
+    <% end %>
+  </ol>
+  </p>
+
+  <%= link_to 'Edit', edit_group_path(@group), class:'btn btn-default' %>
+  <%= link_to 'Back', groups_path, class:'btn btn-default' %>
+</div>

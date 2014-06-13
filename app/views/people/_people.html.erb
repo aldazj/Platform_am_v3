@@ -1,0 +1,37 @@
+
+<%= hidden_field_tag :direction, params[:direction] %>
+<%= hidden_field_tag :sort, params[:sort] %>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-hover table-striped tablesorter">
+    <thead class="pretty">
+    <tr>
+      <th><%= sortable 'lastname' %> <i class="fa fa-sort"></i></th>
+      <th><%= sortable 'firstname'%></th>
+      <th>Email</th>
+      <th>Date_of_birth</th>
+      <th>Private_phone</th>
+      <th>Professional_phone</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @people.each do |person| %>
+        <tr>
+          <td><%= person.lastname %></td>
+          <td><%= person.firstname %></td>
+          <td><%= person.email %></td>
+          <td><%= person.dateofbirth %></td>
+          <td><%= person.private_phone %></td>
+          <td><%= person.professional_phone %></td>
+          <td><%= link_to 'Show', person %></td>
+          <td><%= link_to 'Edit', edit_person_path(person) %></td>
+          <td><%= link_to 'Destroy', person, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @people %>
+</div>

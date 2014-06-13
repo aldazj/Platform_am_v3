@@ -1,0 +1,137 @@
+// Place all the styles related to the videoitems controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.containerLine{
+  width: 100%;
+  overflow: visible;
+  position: relative;
+  left: 0;
+  vertical-align: top;
+  display: inline-block;
+}
+
+//######################################
+//Video
+
+.containervideo{
+  margin-right: 10px;
+  width: 175px;
+  vertical-align: top;
+  word-wrap: break-word;
+  display: inline-block;
+  white-space: normal;
+}
+
+.containervideo li{
+  display: inline-block;
+  list-style: none;
+}
+
+.imagevideo{
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  background: transparent;
+  display: block;
+}
+
+.containerTitle{
+  display: block;
+  line-height: 1;
+  border: 1px solid #e6e6e6;
+  border-top-width: 0;
+  font-weight: bold;
+  padding: 0 8px;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.titlecontainer{
+  display: inline-block;
+  margin-top: 5px;
+  line-height: 1;
+  font-family: arial,sans-serif;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+.title{
+  font-family: arial,sans-serif;
+  line-height: 1;
+}
+
+.header{
+  float: left;
+  margin-top: 4px;
+}
+
+.headerTitle{
+  margin-bottom: 5px;
+  font-size: 24px;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 13px;
+  display: block;
+}
+
+.adminAction{
+  display: inline-block;
+}
+
+//######################################
+//Content
+
+.content{
+  float: left;
+  width: 640px;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  display: block;
+}
+
+.description{
+  line-height: 1;
+  position: relative;
+  padding: 15px 20px 9px;
+  border: 1px solid #e6e6e6;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  background: #fff;
+}
+
+.options{
+  border: 1px solid #e6e6e6;
+  line-height: 1;
+  padding: 15px 20px;
+
+}
+
+.contentComment{
+  padding: 15px 20px;
+  border: 1px solid #e6e6e6;
+  color: #333;
+  width: 598px;
+  font-size: 100%;
+  font-weight: normal;
+  line-height: 1;
+  display: inline-block;
+}
+
+
+.assetsVideo ul li{
+  list-style: none;
+  display: inline-block;
+  padding: 5px;
+}
+
+.assetsVideo ul li a:hover{
+  list-style: none;
+  display: inline;
+  border-bottom: 5px solid gray;
+}

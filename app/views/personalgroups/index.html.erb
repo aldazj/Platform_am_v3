@@ -1,0 +1,27 @@
+<h1>Listing personalgroups</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Person</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @personalgroups.each do |personalgroup| %>
+      <tr>
+        <td><%= personalgroup.person %></td>
+        <td><%= link_to 'Show', personalgroup %></td>
+        <td><%= link_to 'Edit', edit_personalgroup_path(personalgroup) %></td>
+        <td><%= link_to 'Destroy', personalgroup, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Personalgroup', new_personalgroup_path %>

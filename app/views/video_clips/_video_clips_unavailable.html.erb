@@ -1,0 +1,53 @@
+<div class="containerLine">
+  <% @video_clips_unavailable.each do |video_clip| %>
+      <% if !(video_clip.is_available?) && current_person.type == 'Admin'  %>
+          <ul class="containervideo">
+            <li class="videoitem">
+              <div class="imagevideo">
+                <% link = nil %>
+                <% video_clip.thumbnails.each do |thumbnail|%>
+                    <% if thumbnail.main_thumbnail == true %>
+                        <% link = thumbnail.image.url(:thumb) %>
+                        <% break %>
+                    <% end %>
+                <% end  %>
+
+                <%= link_to( image_tag( link,
+                                        title: video_clip.title,
+                                        alt:   video_clip.title,
+                                        size:  '175x98'), video_clip)
+                %>
+              </div>
+
+              <div class="containerTitle">
+                <div class="title">
+                  <%= link_to(video_clip.title, video_clip) %>
+                </div>
+
+                <div class="titlecontainer">
+                  <div>
+                    By: <% @owner = Person.find_by_id(video_clip.person_id) %> <%= @owner.lastname.upcase %> <%= @owner.firstname %>
+                  </div>
+                  <div>
+                    Views: <%= video_clip.views %>
+                  </div>
+                </div>
+
+                <div class="adminAction">
+                  <%= link_to 'Edit', edit_video_clip_path(video_clip) %>
+                  <%= link_to 'Destroy', video_clip, method: :delete, data: { confirm: 'Are you sure?' } %>
+                </div>
+              </div>
+            </li>
+          </ul>
+      <% end %>
+  <% end %>
+</div>
+<%= will_paginate @video_clips_unavailable %>
+
+
+
+
+
+
+

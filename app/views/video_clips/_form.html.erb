@@ -1,0 +1,132 @@
+<%= form_for(@video_clip, :html => {:multipart => true}) do |f| %>
+  <% if @video_clip.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@video_clip.errors.count, "error") %> prohibited this video_clip from being saved:</h2>
+
+      <ul>
+      <% @video_clip.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <% if f.object.new_record? || current_person.type == 'Admin' %>
+        <%= f.label :is_available %><br>
+        <%= f.check_box :is_available %>
+    <% end %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br>
+    <%= f.date_select :date %>
+  </div>
+    <% if !(f.object.present?) %>
+        <div class="field">
+          <%= f.label :views %><br>
+          <%= f.number_field :views %>
+        </div>
+    <% end %>
+
+  <div class="field">
+    <%= f.label :'Select a video' %>
+    <%= f.file_field :videoitemclip %><br>
+  </div>
+
+  <div class="field">
+    <%= f.label :'Enter a remote video url' %><br>
+    <%= f.text_field :videoclip_from_url, :placeholder => 'Path Remote Video'  %>
+  </div>
+
+  <div class="field">
+    <%= f.fields_for :thumbnails do |thumbnail| %>
+        <% if thumbnail.object.new_record? %>
+            <%= f.label :'Add Extras Thumbnails:' %><br>
+            <%= thumbnail.file_field :image %><br>
+        <% end %>
+    <% end %>
+  </div>
+
+  <section id="wrap_retractable">
+      <% if !(f.object.new_record?) %>
+          <div class="field">
+            <!-- <h3 class="retractable"> Thumbnails</h3> -->
+            <%= f.label :'Thumbnails' %><br>
+            <div class="assetsVideo">
+              <ul>
+                <%= f.fields_for :thumbnails do |thumbnail| %>
+                    <% unless thumbnail.object.new_record? %>
+                        <li>
+                          <%= link_to image_tag(thumbnail.object.image.url(:thumb)),
+                                      thumbnail.object.image.url(:original) %><br>
+                          <%= thumbnail.label :'delete'%>
+                          <%= thumbnail.check_box :_destroy %><br>
+                        </li>
+                    <% end %>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+
+          <div class="field">
+            <!-- <h3 class="retractable">Selection</h3> -->
+            <%= f.label :'Select a thumbnail who will represent video:' %><br>
+            <div class="assetsVideo">
+              <ul>
+                <%= f.fields_for :thumbnails do |thumbnail| %>
+                    <li>
+                      <% unless thumbnail.object.new_record? %>
+                          <%= link_to image_tag(thumbnail.object.image.url(:thumb)),
+                                      thumbnail.object.image.url(:original) %><br>
+                          <%= thumbnail.label :'Select'%>
+                          <%= radio_button_tag(:main_thumbnail, thumbnail.object.id, thumbnail_selected?(thumbnail.object)) %>
+                      <% end %>
+                    </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+
+          <div class="field">
+            <!-- <h3 class="retractable">Comments</h3> -->
+            <table class="table table-bordered table-hover table-striped tablesorter">
+              <thead>
+              <tr>
+                <th>Message</th>
+                <th>Owner</th>
+                <th>Created at</th>
+                <th>Is_Available</th>
+                <th>Destroy</th>
+              </tr>
+              </thead>
+              <tbody>
+
+              <%= f.fields_for :comments  do |builder| %>
+                  <tr>
+                    <td><%= builder.text_area :message, :cols => 40,:readonly => true%></td>
+                    <% owner = Person.find_by_id(builder.object.person_id) %>
+                    <td><%= link_to owner.lastname.upcase+' '+owner.firstname, owner %></td>
+                    <td><%= builder.object.created_at%></td>
+                    <td><%= builder.check_box :is_available  %></td>
+                    <td><%= builder.check_box :_destroy %></td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+
+          </div>
+      <% end %>
+  </section>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

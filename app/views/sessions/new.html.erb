@@ -1,0 +1,21 @@
+<% provide(:title, 'Sign in') %>
+<% if flash[:error] %>
+    <div id="error_explanation">
+      <ul>
+        <%= flash[:error] %>
+      </ul>
+    </div>
+<% end %>
+
+<h1>Sign in</h1>
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(:session, url: sessions_path) do |f| %>
+        <%= f.label :email %><br>
+        <%= f.text_field :email %><br>
+        <%= f.label :password %><br>
+        <%= f.password_field :password %><br>
+        <%= f.submit 'Sign in', class: 'btn btn-large btn-primary' %>
+    <% end %>
+  </div>
+</div>

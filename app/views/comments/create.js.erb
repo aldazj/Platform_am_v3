@@ -1,0 +1,7 @@
+$('#txt').keydown(function (e){
+    if(e.keyCode == 13){
+
+    }
+})
+$('#new_comment_form')[0].reset();
+$("#comments_div").html("<%= escape_javascript(render :partial => "video_clips/comments") %>");

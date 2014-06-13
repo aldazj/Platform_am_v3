@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Message:</strong>
+  <%= @comment.message %>
+</p>
+
+<p>
+  <strong>Is available:</strong>
+  <%= @comment.is_available %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @comment.date %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @comment.url %>
+</p>
+
+<p>
+  <strong>Videoitem:</strong>
+  <%= @comment.videoitem %>
+</p>
+
+<%= link_to 'Edit', edit_comment_path(@comment) %> |
+<%= link_to 'Back', comments_path %>

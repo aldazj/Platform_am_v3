@@ -1,0 +1,19 @@
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Videos unavailable  <small>List videos</small></h1>
+      <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i>  Video unavailables </li>
+      </ol>
+    </div>
+  </div>
+
+  <%= form_tag video_clips_unavailables_path, :method => 'get', :id => 'video_clips_unavailable_search' do %>
+      <p>
+        <%= text_field_tag :search_video_unavailable, params[:search_video_unavailable] %>
+        <%= submit_tag "Search", :title => nil %>
+      </p>
+      <div id="video_clips_unavailable_div">  <%= render 'video_clips_unavailable' %></div>
+  <% end %>
+
+</div>

@@ -1,0 +1,53 @@
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Myvideos <small>List videos</small></h1>
+      <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i>  Myvideos </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="containerLine">
+    <% @videoitems.each do |videoitem| %>
+        <% if videoitem.is_available? %>
+            <ul class="containervideo">
+              <li class="videoitem">
+                <div class="imagevideo">
+                  <%= link_to( image_tag( videoitem.assets.first.image.url(:thumb),
+                                          title: videoitem.title,
+                                          alt:   videoitem.title,
+                                          size:  '175x98'), videoitem)
+                  %>
+                </div>
+
+                <div class="containerTitle">
+                  <div class="title">
+                    <%= link_to(videoitem.title, videoitem) %>
+                  </div>
+
+                  <div class="titlecontainer">
+                    <div>
+                      By: <% @owner = Person.find_by_id(videoitem.person_id) %> <%= @owner.lastname.upcase %> <%= @owner.firstname %>
+                    </div>
+                    <div>
+                        Views: <%= videoitem.views %>
+                    </div>
+                  </div>
+
+                  <% if current_person.type == 'Admin' %>
+                      <div class="adminAction">
+                          <%= link_to 'Edit', edit_videoitem_path(videoitem) %>
+                          <%= link_to 'Destroy', videoitem, method: :delete, data: { confirm: 'Are you sure?' } %>
+                      </div>
+                  <% end %>
+                </div>
+              </li>
+            </ul>
+        <% end %>
+    <% end %>
+  </div>
+
+  <%#= link_to('Upload', new_video_item_path) %>
+
+</div>

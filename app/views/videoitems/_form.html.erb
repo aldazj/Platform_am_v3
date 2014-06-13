@@ -1,0 +1,89 @@
+<%= form_for(@videoitem, :html => {:multipart => true}) do |f| %>
+  <% if @videoitem.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@videoitem.errors.count, "error") %> prohibited this videoitem from being saved:</h2>
+
+      <ul>
+      <% @videoitem.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title, :placeholder => 'Title' %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_field :description, :placeholder => 'Description' %>
+  </div>
+  <div class="field">
+    <%= f.label :is_available %><br>
+    <%= f.check_box :is_available %>
+  </div>
+
+  <div class="field">
+    <%= f.label :date %><br>
+    <%= f.date_select :date %>
+  </div>
+
+  <% if !(f.object.present?) %>
+    <div class="field">
+        <%= f.label :views %><br>
+        <%= f.number_field :views %>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :pathvideo %><br>
+    <%= f.text_field :pathvideo, :placeholder => 'Path Video'  %>
+  </div>
+
+  <div class="field">
+    <%= f.fields_for :assets do |asset| %>
+        <% if asset.object.new_record? %>
+            <%= asset.label :'Add new image' %><br>
+            <%= asset.file_field :image %><br>
+        <% end %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <% if !(f.object.new_record?) %>
+    <div class="assetsVideo">
+      <ul>
+            <%= f.label :'Videos images' %><br>
+            <%= f.fields_for :assets do |asset| %>
+                <% unless asset.object.new_record? %>
+                    <li>
+                        <%= link_to image_tag(asset.object.image.url(:thumb)),
+                                              asset.object.image.url(:original) %><br>
+                        <%= asset.label :'delete'%>
+                        <%= asset.check_box :_destroy %><br>
+                    </li>
+                <% end %>
+            <% end %>
+      </ul>
+    </div>
+  <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.fields_for :comments do |builder| %>
+        <%= builder.label :message, 'Add Comment' %><br>
+        <%= builder.text_area :message, :row => 3, :readonly => true %><br>
+        <% unless builder.object.new_record? %>
+            <%= builder.label :'delete'%>
+            <%= builder.check_box :_destroy %>
+            <%= builder.label :'available' %>
+            <%= builder.check_box :is_available %><br>
+        <% end %>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

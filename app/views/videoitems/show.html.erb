@@ -1,0 +1,124 @@
+
+<!--<p id="notice"><%#= notice %></p>-->
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Show Video <small>Show Video</small></h1>
+      <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i>  Show Video </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="video">
+      <div class="header>">
+        <div class="headerTitle">
+          <strong>Title: </strong>
+          <%= @videoitem.title %>
+        </div>
+        <% if current_person.type == 'Admin' %>
+            <div class="headerEdit">
+                <%= link_to 'Edit Video', edit_videoitem_path(@videoitem) %>
+            </div>
+        <% end %>
+      </div>
+
+      <div class="videocontainer">
+        <div class="player">
+          <%= video_tag([@videoitem.pathvideo], :size => '640x387', :controls => true, :preload => 'none', :autoplay => true) do%>
+              Your browser does not support the video tag.
+          <% end %>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="contentInfo">
+
+          <div class="description">
+            <p>
+              <strong>Description:</strong>
+              <%= @videoitem.description %>
+            </p>
+            <p>
+              <strong>Uploaded on:</strong>
+              <%= @videoitem.date %>
+            </p>
+            <p>
+              <strong>Views:</strong>
+              <%= @videoitem.views %>
+            </p>
+
+            <p>
+              <strong>Owner:</strong>
+              <i><%= @owner.lastname.upcase %></i>
+              <%= @owner.firstname %>
+            </p>
+          </div>
+
+          <div class="options">
+            <% Right.all.each do |right| %>
+                <% if right.name != 'Comment' && right.name != 'Upload'%>
+                  <al>
+                    <% if right_in_current_person_personalgroup?(right.name) %>
+                        <%= link_to right.name, '#', :alt => right.name %> |
+                  <% else %>
+                        <% if current_person_groups_enable? %>
+                            <% if right_in_current_person_groups?(right.name) %>
+                                <%= link_to right.name, '#', :alt => right.name %> |
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                  </al>
+                <% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <% if right_in_current_person_personalgroup?('Comment') %>
+            <p>
+              <%= form_for([@videoitem, @new_comment], :url => videoitem_comments_path(@videoitem, @new_comment)) do |f| %>
+                  <%= f.text_area :message, size:'89x3', class:'form-control' %><br>
+                  <%= f.submit 'Post Comment', class:'btn btn-default' %>
+              <% end %>
+            </p>
+        <% else %>
+            <% if current_person_groups_enable? %>
+                <% if right_in_current_person_groups?('Comment') %>
+                    <p>
+                      <%= form_for([@videoitem, @new_comment], :url => videoitem_comments_path(@videoitem, @new_comment)) do |f| %>
+                          <%= f.text_area :message, size:'89x3', class:'form-control' %><br>
+                          <%= f.submit 'Post Comment', class:'btn btn-default' %>
+                      <% end %>
+                    </p>
+                <% end %>
+            <% end %>
+        <% end %>
+
+          <div class="comments">
+            <strong>All Comments: </strong>
+            <% if @videoitem.comments.size != 0 %>
+                <ol>
+                  <% @videoitem.comments.each  do |comment| %>
+                      <% if comment.is_available? %>
+                      <li>
+                        <%= comment.message %><br>
+                        <% if !(comment.person_id.nil?) %>
+                            <% owner = Person.find_by_id(comment.person_id)%>
+                            <%#= owner.lastname.upcase+' '+owner.firstname %>
+                            <%= link_to owner.lastname.upcase+' '+owner.firstname, owner %>
+                      <% end %>
+                      </li>
+                      <% end %>
+                  <% end %>
+                </ol>
+            <% else %>
+                No comments
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+</div>

@@ -1,0 +1,102 @@
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Show User  <small>Show User</small></h1>
+      <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i> Show User </li>
+      </ol>
+    </div>
+  </div>
+
+  <p id="notice"><%= notice %></p>
+
+  <p>
+    <strong>Type Account:</strong>
+    <%= @person.type %>
+  </p>
+
+  <p>
+    <strong>Lastname:</strong>
+    <%= @person.lastname %>
+  </p>
+
+  <p>
+    <strong>Firstname:</strong>
+    <%= @person.firstname %>
+  </p>
+
+  <p>
+    <strong>Password:</strong>
+    <%= @person.password %>
+  </p>
+
+  <p>
+    <strong>Email:</strong>
+    <%= @person.email %>
+  </p>
+
+  <p>
+    <strong>Date of birth:</strong>
+    <%= @person.dateofbirth %>
+  </p>
+
+  <p>
+    <strong>Private phone:</strong>
+    <%= @person.private_phone %>
+  </p>
+
+  <p>
+    <strong>Professional phone:</strong>
+    <%= @person.professional_phone %>
+  </p>
+
+  <% if current_person.type == 'Admin' %>
+
+      <p>
+         <strong>Groups:</strong>
+         <ol>
+            <% Group.all.each do |group| %>
+                <div>
+                  <%= check_box_tag 'person[group_ids][]', group.id, group_present?(group.id)  %>
+                  <%= group.name %><br>
+                </div>
+            <% end %>
+         </ol>
+      </p>
+
+
+      <p>
+        <strong>Groups Rights:</strong>
+        <% rightArray = Array.new %>
+          <% @person.groups.each do |group| %>
+            <% group.rights.each do |right| %>
+                <% rightArray.push(right) %>
+            <% end %>
+          <% end %>
+        <% rightArray = rightArray.uniq %>
+        <ol>
+            <% Right.all.each do |right| %>
+              <div>
+                <%= check_box_tag 'right.name', right.id, rightArray.include?(right)  %>
+                <%= right.name %><br>
+              </div>
+            <% end %>
+        </ol>
+      </p>
+
+      <div class="field">
+        <strong>Personal extras rights:</strong>
+        <ol>
+            <% Right.all.each do |right| %>
+                <div>
+                  <%= check_box_tag 'personalgroup[right_ids][]', right.id, personal_right_present?(right.id)%>
+                  <%= right.name %><br>
+                </div>
+            <% end %>
+        </ol>
+      </div>
+
+      <%= link_to 'Edit', edit_person_path(@person), class:'btn btn-default' %>
+      <%= link_to 'Back', people_path, class:'btn btn-default' %>
+  <% end %>
+</div>

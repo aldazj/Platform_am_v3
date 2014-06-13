@@ -1,0 +1,23 @@
+// Place all the styles related to the Groups controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+
+.containerLine{
+  width: 100%;
+  overflow: visible;
+  position: relative;
+  left: 0;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.containergroups{
+  margin-right: 10px;
+  width: 175px;
+  vertical-align: top;
+  word-wrap: break-word;
+  display: inline-block;
+  white-space: normal;
+}

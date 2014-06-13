@@ -1,0 +1,36 @@
+<div class="detailBox">
+  <div class="commentBox">
+    <p class="taskDescription">Comments:</p>
+  </div>
+  <div class="actionBox">
+    <ul class="commentList">
+      <% if @video_clip.comments.size != 0 %>
+            <% @video_clip.comments.reverse.each  do |comment| %>
+                <% if comment.is_available? %>
+                  <li>
+                    <div class="commentImage">
+                      <img src="https://s3-us-west-2.amazonaws.com/aldazjvideo.com/images_extras/user_profil.png" />
+                    </div>
+                    <div class="commentBox">
+                        <div class="commentText">
+                          <p class=""> <%= comment.message %> </p> <span class="date sub-text"> <%= comment.created_at %>  </span>
+                        </div>
+                        <div class="commentOwner">
+                          <% if !(comment.person_id.nil?) %>
+                              <% owner = Person.find_by_id(comment.person_id)%>
+                              <%#= owner.lastname.upcase+' '+owner.firstname %>
+                              <%= link_to owner.lastname.upcase+' '+owner.firstname, owner %>
+                          <% end %>
+                        </div>
+                    </div>
+                  </li>
+                  <div class="espace"></div>
+                <% end %>
+            <% end %>
+      <% else %>
+          No comments
+      <% end %>
+    </ul>
+    <%#= will_paginate @video_clip_comments %>
+  </div>
+</div>

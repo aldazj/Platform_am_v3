@@ -1,0 +1,44 @@
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Rights <small>List Rights</small></h1>
+      <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i>  Rights </li>
+      </ol>
+    </div>
+  </div>
+
+  <div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped tablesorter">
+            <thead>
+            <tr>
+              <th>Name <i class="fa fa-sort"></i></th>
+              <th>Is available<i class="fa fa-sort"></i></th>
+              <th><i class="fa fa-sort"></i></th>
+              <th><i class="fa fa-sort"></i></th>
+              <th><i class="fa fa-sort"></i></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% @rights.each do |right| %>
+                <tr>
+                  <td><%= right.name %></td>
+                  <td><%= right.is_available %></td>
+                  <td><%= link_to 'Show', right %></td>
+                  <td><%= link_to 'Edit', edit_right_path(right) %></td>
+                  <td><%= link_to 'Destroy', right, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /.row -->
+    <%= link_to 'New Right', new_right_path, class:'btn btn-default' %>
+  </div>
+  <br>
+</div>

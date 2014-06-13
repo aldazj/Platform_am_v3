@@ -1,0 +1,84 @@
+<%= form_for(@person) do |f| %>
+  <% if @person.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@person.errors.count, "error") %> prohibited this person from being saved:</h2>
+
+      <ul>
+      <% @person.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <% if f.object.new_record? %>
+        <%= f.label :'Person Type' %>
+        <div>
+          <%= f.select(:type, options_for_select(Person::TYPES.map{|value| [value,value]}, :selected => f.object.type)) %>
+        </div>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :lastname %><br>
+    <%= f.text_field :lastname, :placeholder => 'Lastname' %>
+  </div>
+  <div class="field">
+    <%= f.label :firstname %><br>
+    <%= f.text_field :firstname, :placeholder => 'Firstname'  %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %><br>
+    <%= f.password_field :password, :placeholder => 'Password' %>
+  </div>
+  <div class="field">
+    <%= f.label :'Confirm password' %><br>
+    <%= f.password_field :password_confirmation, :placeholder => 'Confirm Password' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br>
+    <%= f.text_field :email, :placeholder => 'Email' %>
+  </div>
+  <div class="field">
+    <%= f.label :dateofbirth %><br>
+    <%= f.date_select(:dateofbirth,:start_year => Time.now.year,:end_year => Time.now.year - 100) %>
+  </div>
+  <div class="field">
+    <%= f.label :private_phone %><br>
+    <%= f.text_field :private_phone, :placeholder => 'Private Phone' %>
+  </div>
+  <div class="field">
+    <%= f.label :professional_phone %><br>
+    <%= f.text_field :professional_phone, :placeholder => 'Professional Phone' %>
+  </div>
+
+  <% if current_person.type == 'Admin' %>
+      <div class="field">
+        <%= hidden_field_tag 'person[group_ids][]', nil %>
+        <%= f.label :'Add groups' %><br>
+        <% Group.all.each do |group| %>
+            <%= check_box_tag 'person[group_ids][]', group.id, group_present?(group.id)  %>
+            <%= group.name %><br>
+        <% end %>
+      </div>
+
+      <div class="field">
+        <% if !(f.object.new_record?) %>
+            <%= hidden_field_tag 'personalgroup[right_ids][]', nil %>
+            <%= f.label :'Add extra rights' %><br>
+            <% Right.all.each do |right| %>
+                <%= check_box_tag 'personalgroup[right_ids][]', right.id, personal_right_present?(right.id)  %>
+                <%= right.name %><br>
+            <% end %>
+        <% end %>
+      </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit%>
+  </div>
+
+<% end %>

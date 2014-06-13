@@ -1,0 +1,73 @@
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Groups <small>List Groups</small></h1>
+      <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i>  Groups </li>
+      </ol>
+    </div>
+  </div>
+
+  <div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped tablesorter">
+            <thead>
+            <tr>
+              <th>Name <i class="fa fa-sort"></i></th>
+              <th><i class="fa fa-sort"></i></th>
+              <th><i class="fa fa-sort"></i></th>
+              <th><i class="fa fa-sort"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @groups.each do |group| %>
+                <tr>
+                  <td><%= group.name %></td>
+                  <td><%= link_to 'Show', group %></td>
+                  <td><%= link_to 'Edit', edit_group_path(group) %></td>
+                  <td><%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /.row -->
+    <%= link_to 'New Group', new_group_path, class:'btn btn-default' %>
+  </div>
+  <br>
+  <br>
+
+
+  <div class="row">
+    <div class="col-lg-12">
+      <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i>  Group Rights </li>
+      </ol>
+    </div>
+  </div>
+
+
+  <div class="containerLine">
+    <% @groups.each  do |group| %>
+        <ul class="containergroups">
+          <p>
+            <strong>Name:</strong>
+            <%= group.name %>
+          </p>
+
+          <p>
+            <strong>Rights:</strong>
+            <% Right.all.each do |right| %>
+              <div>
+                <%= check_box_tag 'group[right_ids][]', right.id, group_right_present?(group.id, right.id)  %>
+                <%= right.name %><br>
+              </div>
+            <% end %>
+        </ul>
+    <% end %>
+  </div>
+
+</div>

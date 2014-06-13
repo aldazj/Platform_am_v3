@@ -1,0 +1,18 @@
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Myvideos  <small>List videos</small></h1>
+      <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i>  Myvideos </li>
+      </ol>
+    </div>
+  </div>
+
+  <%= form_tag video_clips_path, :method => 'get', :id => 'video_clips_search' do %>
+      <p>
+        <%= text_field_tag :search_video, params[:search_video] %>
+        <%= submit_tag "Search", :title => nil %>
+      </p>
+      <div id="video_clips_div"><%= render 'video_clips' %></div>
+  <% end %>
+</div>

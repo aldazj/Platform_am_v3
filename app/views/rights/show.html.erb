@@ -1,0 +1,25 @@
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Rights <small>Show right</small></h1>
+      <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i>  Show right </li>
+      </ol>
+    </div>
+  </div>
+
+  <p id="notice"><%= notice %></p>
+  <p>
+    <strong>Name:</strong>
+    <%= @right.name %>
+  </p>
+
+  <p>
+    <strong>Is available:</strong>
+    <%= @right.is_available %>
+  </p>
+
+  <%= link_to 'Edit', edit_right_path(@right), class:'btn btn-default' %>
+  <%= link_to 'Back', rights_path, class:'btn btn-default' %>
+
+</div>
